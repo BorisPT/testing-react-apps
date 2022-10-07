@@ -18,10 +18,10 @@ beforeEach(() => {
 
 test('counter increments and decrements when the buttons are clicked', () => {
 
-  // 🐨 create a div to render your component to (💰 document.createElement)
-  const divForComponents = document.createElement("div");
+  // interessante : create a div that will host our components.
+    const divForComponents = document.createElement("div");
 
-  // 🐨 append the div to document.body (💰 document.body.append)
+  // interessante : append the newly created div to the document body
   document.body.append(divForComponents)
 
   // 🐨 use createRoot to render the <Counter /> to the div
