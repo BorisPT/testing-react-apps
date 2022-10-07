@@ -11,24 +11,52 @@ import Counter from '../../components/counter'
 // Luckily, it's handled for you by React Testing Library :)
 global.IS_REACT_ACT_ENVIRONMENT = true
 
+// interessante : clean the inner html before adding the components
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 test('counter increments and decrements when the buttons are clicked', () => {
+
   // 🐨 create a div to render your component to (💰 document.createElement)
-  //
+  const divForComponents = document.createElement("div");
+
   // 🐨 append the div to document.body (💰 document.body.append)
-  //
+  document.body.append(divForComponents)
+
   // 🐨 use createRoot to render the <Counter /> to the div
+  const root = createRoot(divForComponents);
+
+  act(() => root.render(<Counter />));
+
   // 🐨 get a reference to the increment and decrement buttons:
   //   💰 div.querySelectorAll('button')
+  const buttonArray = divForComponents.querySelectorAll("button");
+  const decrementButton = buttonArray[0];
+  const incrementButton = buttonArray[1];
+
   // 🐨 get a reference to the message div:
   //   💰 div.firstChild.querySelector('div')
-  //
+  const messageDiv = divForComponents.firstChild.querySelector("div");
+  
   // 🐨 expect the message.textContent toBe 'Current count: 0'
+  expect(messageDiv.textContent).toBe('Current count: 0')
+
   // 🐨 click the increment button (💰 act(() => increment.click()))
+  act(() => incrementButton.click())
+
   // 🐨 assert the message.textContent
+  expect(messageDiv.textContent).toBe('Current count: 1')
+
   // 🐨 click the decrement button (💰 act(() => decrement.click()))
-  // 🐨 assert the message.textContent
-  //
+  act(() => decrementButton.click())
+
+  // 🐨 assert the message.textContent  
+  expect(messageDiv.textContent).toBe('Current count: 0')
+
   // 🐨 cleanup by removing the div from the page (💰 div.remove())
+  divForComponents.remove();
+  
   // 🦉 If you don't cleanup, then it could impact other tests and/or cause a memory leak
 })
 
