@@ -46,7 +46,7 @@ test('counter increments and decrements when the buttons are clicked', () => {
 
   expect(messageDiv.textContent).toBe('Current count: 1')
   
-  act(() => decrementButton.click())
+  act(() => decrementButton.dispatchEvent(mouseEventClick))
 
   expect(messageDiv.textContent).toBe('Current count: 0')
 
