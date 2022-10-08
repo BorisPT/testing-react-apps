@@ -2,20 +2,29 @@
 // http://localhost:3000/counter
 
 import * as React from 'react'
-// 🐨 add `screen` to the import here:
-import {render, fireEvent} from '@testing-library/react'
+// interessante : import the "screen" object so we can use it like the dom object 
+import {render, fireEvent, screen} from '@testing-library/react'
 import Counter from '../../components/counter'
 
 test('counter increments and decrements when the buttons are clicked', () => {
   const {container} = render(<Counter />)
-  // 🐨 replace these with screen queries
-  // 💰 you can use `getByText` for each of these (`getByRole` can work for the button too)
-  const [decrement, increment] = container.querySelectorAll('button')
-  const message = container.firstChild.querySelector('div')
+
+  // interessante : select the elements we wish to manipulate using the screen object
+  // and specific queries.
+  // More details in: 
+  // https://testing-library.com/docs/queries/about/#screen
+  // https://testing-library.com/docs/queries/about/
+  // https://testing-library.com/docs/queries/bytext/
+  const incrementButton = screen.getByText("Increment")  
+  
+  // interessante : the "name" property in the accessibility tree
+  const decrementButton = screen.getByRole("button", {name : "Decrement"})
+  
+  const message = screen.getByText(/Current count/)
 
   expect(message).toHaveTextContent('Current count: 0')
-  fireEvent.click(increment)
+  fireEvent.click(incrementButton)
   expect(message).toHaveTextContent('Current count: 1')
-  fireEvent.click(decrement)
+  fireEvent.click(decrementButton)
   expect(message).toHaveTextContent('Current count: 0')
 })
