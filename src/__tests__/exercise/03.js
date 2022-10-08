@@ -7,7 +7,7 @@ import {render, fireEvent, screen} from '@testing-library/react'
 import Counter from '../../components/counter'
 
 test('counter increments and decrements when the buttons are clicked', () => {
-  const {container} = render(<Counter />)
+  render(<Counter />)
 
   // interessante : select the elements we wish to manipulate using the screen object
   // and specific queries.
