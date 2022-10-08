@@ -18,44 +18,40 @@ beforeEach(() => {
 
 test('counter increments and decrements when the buttons are clicked', () => {
 
-  // interessante : create a div that will host our components.
     const divForComponents = document.createElement("div");
 
-  // interessante : append the newly created div to the document body
   document.body.append(divForComponents)
 
-  // interessante : use createRoot to render the <Counter /> to the div
   const root = createRoot(divForComponents);
 
   act(() => root.render(<Counter />));
 
-  // interessante : get a reference to the increment and decrement buttons:
   const buttonArray = divForComponents.querySelectorAll("button");
   const decrementButton = buttonArray[0];
   const incrementButton = buttonArray[1];
 
-  // interessante : get a reference to the message div:
   const messageDiv = divForComponents.firstChild.querySelector("div");
   
-  // interessante : expect the message.textContent toBe 'Current count: 0'
   expect(messageDiv.textContent).toBe('Current count: 0')
 
-  // interessante : click the increment button (💰 act(() => increment.click()))
-  act(() => incrementButton.click())
+  // interessante : define a click event
+  const mouseEventClick = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  });
 
-  // interessante : assert the message.textContent
+  // interessante : invoke an event on the event target to simulate the click
+  act(() => incrementButton.dispatchEvent(mouseEventClick))
+
   expect(messageDiv.textContent).toBe('Current count: 1')
-
-  // interessante : click the decrement button (💰 act(() => decrement.click()))
+  
   act(() => decrementButton.click())
 
-  // interessante :  assert the message.textContent  
   expect(messageDiv.textContent).toBe('Current count: 0')
 
-  // interessante :  cleanup by removing the div from the page (💰 div.remove())
   divForComponents.remove();
-  
-  // interessante : If you don't cleanup, then it could impact other tests and/or cause a memory leak
+    
 })
 
 /* eslint no-unused-vars:0 */
