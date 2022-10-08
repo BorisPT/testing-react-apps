@@ -52,7 +52,7 @@ test('counter increments and decrements when the buttons are clicked', () => {
   // interessante :  assert the message.textContent  
   expect(messageDiv.textContent).toBe('Current count: 0')
 
-  // interessante :  cleanup by removing the div from the page (💰 div.remove())
+  // interessante :  cleanup by removing the div from the page 
   divForComponents.remove();
   
   // interessante : If you don't cleanup, then it could impact other tests and/or cause a memory leak
