@@ -25,14 +25,14 @@ const buildLoginForm = build({
 const server = setupServer(
   rest.post(
     'https://auth-provider.example.com/api/login',
-    async (req, res, ctx) => {
-      if (!req.body.password) {
-        return res(ctx.status(400), ctx.json({message: 'password required'}))
+    async (request, response, context) => {
+      if (!request.body.password) {
+        return response(context.status(400), context.json({message: 'password required'}))
       }
-      if (!req.body.username) {
-        return res(ctx.status(400), ctx.json({message: 'username required'}))
+      if (!request.body.username) {
+        return response(context.status(400), context.json({message: 'username required'}))
       }
-      return res(ctx.json({username: req.body.username}))
+      return response(context.json({username: request.body.username}))
     }
   )
 )
