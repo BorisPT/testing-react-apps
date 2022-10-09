@@ -59,7 +59,9 @@ test(`logging in displays the user's username`, async () => {
   // wait for the loading spinner to be removed using waitForElementToBeRemoved
   // https://testing-library.com/docs/dom-testing-library/api-async#waitforelementtoberemoved
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
-
-  // interessante : assert that the username is on the screen
-  expect(screen.getByText(username)).toBeInTheDocument()
+  
+  // interessante : assert that the username is on the screen,
+  // which means, there is an element whose textContent is the same value as 
+  // the generated username
+    expect(screen.getByText(username)).toBeInTheDocument()
 })
