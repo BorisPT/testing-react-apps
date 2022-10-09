@@ -35,9 +35,6 @@ test('submitting the form calls onSubmit with username and password', async () =
 
   expect(handleSubmit).toHaveBeenCalledTimes(1);
   expect(handleSubmit).toHaveBeenCalledWith(expectedData);
-
-
-
 })
 
 /*
