@@ -45,7 +45,7 @@ test(`No username means computer says no`, async () => {
   await userEvent.click(screen.getByRole('button', {name: /submit/i}))
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
   
-  expect(screen.getByText(/username required/i)).toBeInTheDocument()
+  expect(screen.getByRole('alert')).toHaveTextContent('username required')
 })
 
 test(`No password means computer says no`, async () => {
@@ -58,5 +58,5 @@ test(`No password means computer says no`, async () => {
   await userEvent.click(screen.getByRole('button', {name: /submit/i}))
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
   
-  expect(screen.getByText(/password required/i)).toBeInTheDocument();
+  expect(screen.getByRole('alert')).toHaveTextContent('password required')
 })
