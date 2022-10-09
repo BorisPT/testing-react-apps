@@ -32,6 +32,8 @@ afterEach(() => server.resetHandlers())
 
 test(`Server is not responding properly`, async () => {
 
+  const errorMessage = "Unknown server error";
+
   // interessante : define a test-specific server handler that will override the
   // main one, for this test only. We must not forget, however, to reset these
   // one-off handlers after the test execution
@@ -41,7 +43,7 @@ test(`Server is not responding properly`, async () => {
       // so this will override the other.
       'https://auth-provider.example.com/api/login',
       async (req, res, ctx) => {
-        return res(ctx.status(500), ctx.json({message: 'Unknown server error'}))
+        return res(ctx.status(500), ctx.json({message: errorMessage}))
       },
     ),
   )
@@ -57,9 +59,8 @@ test(`Server is not responding properly`, async () => {
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
   // interessante : define an inline snapshot to compare with the text content of the "alert" div
-  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
-    `"Unknown server error"`,
-  )
+  expect(screen.getByRole('alert')).toHaveTextContent(errorMessage);
+
 })
 
 test(`logging in displays the user's username`, async () => {
