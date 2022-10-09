@@ -35,6 +35,8 @@ test(`logging in displays the user's username`, async () => {
   expect(screen.getByText(username)).toBeInTheDocument()
 })
 
+// interessante : test the unhappy path
+
 test(`No username means computer says no`, async () => {
   render(<Login />)
   const {password} = buildLoginForm()
@@ -46,6 +48,7 @@ test(`No username means computer says no`, async () => {
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
   
   expect(screen.getByText(/username required/i)).toBeInTheDocument()
+  // interessante : expect to have an "alert" role with a specific text content
   // expect(screen.getByRole('alert')).toHaveTextContent('username required')
 })
 
@@ -60,5 +63,6 @@ test(`No password means computer says no`, async () => {
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
   
   expect(screen.getByText(/password required/i)).toBeInTheDocument();
+  // interessante : expect to have an "alert" role with a specific text content
   // expect(screen.getByRole('alert')).toHaveTextContent('password required');
 })
