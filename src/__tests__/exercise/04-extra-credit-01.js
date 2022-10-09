@@ -8,11 +8,9 @@ import Login from '../../components/login'
 
 test('submitting the form calls onSubmit with username and password', async () => {
 
-  let submittedData = null;
-
-  const handleSubmit = function (formData){
-    submittedData = formData;
-  }
+  // interessante : define a mock function, that does nothing.
+  // we just want to make sure it is called by the component when the user clicks the button.
+  const handleSubmit = jest.fn();
 
   render(<Login onSubmit={handleSubmit}/>);
 
@@ -28,12 +26,18 @@ test('submitting the form calls onSubmit with username and password', async () =
 
   await userEvent.click(submitButton);
 
+  // interessante : define the object that we are expecting to be passed to the handler.
+  // This would mean the component is working correctly
   const expectedData = {
     username: testUser,
     password: testPass
   };
 
-  expect(submittedData).toEqual(expectedData);
+  expect(handleSubmit).toHaveBeenCalledTimes(1);
+  expect(handleSubmit).toHaveBeenCalledWith(expectedData);
+
+
+
 })
 
 /*
