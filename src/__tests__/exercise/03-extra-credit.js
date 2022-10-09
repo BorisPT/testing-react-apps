@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 // interessante : import the "screen" object so we can use it like the dom object 
-import {render, fireEvent, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Counter from '../../components/counter'
 
