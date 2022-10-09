@@ -2,10 +2,16 @@
 // http://localhost:3000/location
 
 import * as React from 'react'
-import {render, screen, act} from '@testing-library/react'
+import {render, screen, act, waitForElementToBeRemoved} from '@testing-library/react'
 import Location from '../../examples/location'
 
-// 🐨 set window.navigator.geolocation to an object that has a getCurrentPosition mock function
+// interessante : before all tests, define the existence of a mock function that will act as 
+// the real "getCurrentPosition". The third party library will call this "getCurrentPosition"
+beforeAll(() => {
+  window.navigator.geolocation = {
+    getCurrentPosition: jest.fn(),
+  }
+})
 
 // 💰 I'm going to give you this handy utility function
 // it allows you to create a promise that you can resolve/reject on demand.
@@ -26,6 +32,35 @@ function deferred() {
 // // assert on the resolved state
 
 test('displays the users current location', async () => {
+
+  // interessante : define a fake position to be returned by the mocked function
+  const fakePosition = {
+    coords: {
+      latitude : 35,
+      longitude : 129
+    }
+  }
+
+  // interessante : define the mock implementation of the "getCurrentPosition" as function.
+  // This function accepts a callback as an argument and invokes it with the fakePosition data
+  window.navigator.geolocation.getCurrentPosition.mockImplementation(
+    function (callback) {
+      setTimeout(() => {
+        callback(fakePosition)        
+      }, 200);      
+    }    
+  );
+
+  render(<Location />);
+
+  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  expect(screen.getByText(/latitude/i)).toHaveTextContent(/35/i);
+  expect(screen.getByText(/longitude/i)).toHaveTextContent(/129/i);
+
+
   // 🐨 create a fakePosition object that has an object called "coords" with latitude and longitude
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPosition
   //
