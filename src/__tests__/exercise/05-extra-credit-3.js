@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import {build, fake} from '@jackfranklin/test-data-bot'
 import {setupServer} from 'msw/node'
 
-import {handlers} from "../../test/server-handlers";
+import {handlers} from '../../test/server-handlers'
 
 import Login from '../../components/login-submission'
 
@@ -18,7 +18,7 @@ const buildLoginForm = build({
   },
 })
 
-const server = setupServer(...handlers);
+const server = setupServer(...handlers)
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())
@@ -44,8 +44,14 @@ test(`No username means computer says no`, async () => {
 
   await userEvent.click(screen.getByRole('button', {name: /submit/i}))
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
-  
-  expect(screen.getByRole('alert')).toHaveTextContent('username required')
+
+  // interessante : inline shapshot
+  // In the first execution, with no parameters, Jest will fill in the assertion.
+  // In subsequent executions, if the test fails, Jest will offer to update 
+  // the assertion
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"username required"`,
+  )
 })
 
 test(`No password means computer says no`, async () => {
@@ -57,6 +63,8 @@ test(`No password means computer says no`, async () => {
 
   await userEvent.click(screen.getByRole('button', {name: /submit/i}))
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
-  
-  expect(screen.getByRole('alert')).toHaveTextContent('password required')
+
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
