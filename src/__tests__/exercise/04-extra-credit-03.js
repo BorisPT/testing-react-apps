@@ -31,7 +31,7 @@ test('submitting the form calls onSubmit with username and password', async () =
   }
   const {username, password} = buildLoginData(data);
 
-  console.log({username, password});
+  // console.log({username, password});
 
   await userEvent.type(userNameField, username);
   await userEvent.type(passwordField, password);
