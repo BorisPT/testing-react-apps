@@ -12,7 +12,7 @@ import {useCurrentPosition} from "react-use-geolocation";
 // of this module into a jest mock
 jest.mock("react-use-geolocation");
 
-test('displays the users current location', async () => {
+test('Get an error trying to get the users current location', async () => {
 
   let setState = null;
 
@@ -35,14 +35,15 @@ test('displays the users current location', async () => {
   
   const errorMessage = "Computer says no"
 
-  // interessante : since we are calling a state updater function, we have to wrap it
-  // in an "act" function so React can properly handle all the side effects it triggers
-  act(() => setState([null, {message : errorMessage}]));
+  // interessante : simulate an error ocurring while getting
+  // the user position
+  act(() => setState([null, {
+    message : errorMessage
+  }]));
 
-  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();
+  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();  
 
-  screen.debug();
-
+  // interessante : expect the error message to appear on the screen
   expect(screen.getByRole("alert")).toHaveTextContent(errorMessage);
 
 })
