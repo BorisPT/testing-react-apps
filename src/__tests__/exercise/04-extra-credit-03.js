@@ -8,10 +8,10 @@ import Login from '../../components/login'
 
 import faker from 'faker'
 
-function buildLoginData() {
+function buildLoginData(formData) {
   return {
-    username : faker.internet.userName(),
-    password : faker.internet.password()
+    username : formData?.username || faker.internet.userName(),
+    password : formData?.password || faker.internet.password()
   }
 }
 
@@ -25,7 +25,13 @@ test('submitting the form calls onSubmit with username and password', async () =
   const passwordField = screen.getByLabelText(/password/i);
   const submitButton = screen.getByRole("button", {name : /submit/i});
 
-  const {username, password} = buildLoginData();
+  const data = {
+    //username : "Chuck Norris",
+    password : "$#enforcedPassword123"
+  }
+  const {username, password} = buildLoginData(data);
+
+  console.log({username, password});
 
   await userEvent.type(userNameField, username);
   await userEvent.type(passwordField, password);
