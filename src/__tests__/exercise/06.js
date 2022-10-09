@@ -6,7 +6,7 @@ import {render, screen, act, waitForElementToBeRemoved} from '@testing-library/r
 import Location from '../../examples/location'
 
 // interessante : before all tests, define the existence of a mock function that will act as 
-// the real "getCurrentPosition". The third party library will call this "getCurrentPosition"
+// the real "getCurrentPosition". The "react-use-geolocation" library will call this "getCurrentPosition"
 beforeAll(() => {
   window.navigator.geolocation = {
     getCurrentPosition: jest.fn(),
