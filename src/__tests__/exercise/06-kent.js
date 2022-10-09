@@ -13,8 +13,7 @@ beforeAll(() => {
   }
 })
 
-// 💰 I'm going to give you this handy utility function
-// it allows you to create a promise that you can resolve/reject on demand.
+// interessante : define a promise that can resolved or rejected on demand.
 function deferred() {
   let resolve, reject
   const promise = new Promise((res, rej) => {
@@ -23,13 +22,6 @@ function deferred() {
   })
   return {promise, resolve, reject}
 }
-// 💰 Here's an example of how you use this:
-// const {promise, resolve, reject} = deferred()
-// promise.then(() => {/* do something */})
-// // do other setup stuff and assert on the pending state
-// resolve()
-// await promise
-// // assert on the resolved state
 
 test('displays the users current location', async () => {
 
@@ -41,21 +33,27 @@ test('displays the users current location', async () => {
     }
   }
 
+  // interessante : get a promise and its resolver function in order to resolve it when we want
+  const {promise, resolve} = deferred()
+
   // interessante : define the mock implementation of the "getCurrentPosition" as function.
   // This function accepts a callback as an argument and invokes it with the fakePosition data
   window.navigator.geolocation.getCurrentPosition.mockImplementation(
-    function (callback) {
-      setTimeout(() => {
-        callback(fakePosition)        
-      }, 200);      
-    }    
+    callback => {
+      promise.then(() => callback(fakePosition))
+    }
   );
 
   render(<Location />);
 
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
+  
+  await act(async () => {
+    resolve()
+    await promise
+  })  
 
-  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();
 
   expect(screen.getByText(/latitude/i)).toHaveTextContent(/35/i);
   expect(screen.getByText(/longitude/i)).toHaveTextContent(/129/i);
