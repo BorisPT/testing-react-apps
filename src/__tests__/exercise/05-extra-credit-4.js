@@ -58,7 +58,7 @@ test(`Server is not responding properly`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
-  // interessante : define an inline snapshot to compare with the text content of the "alert" div
+  // interessante : expect the error message to be displayed in the web page
   expect(screen.getByRole('alert')).toHaveTextContent(errorMessage);
 
 })
