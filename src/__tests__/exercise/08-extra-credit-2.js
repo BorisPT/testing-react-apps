@@ -11,7 +11,7 @@ function setup({initialCount = 0, step = 1} = {}) {
   // interessante : define the initial result object.
   const hookResult = {};
 
-  const FakeComponent = ({initialCount, step}) => {  
+  const FakeComponent = () => {  
 
     // interessante : copy the hook output into the result object.
     // this way it can be referenced from outside the function
@@ -19,7 +19,7 @@ function setup({initialCount = 0, step = 1} = {}) {
     return null;
    };
    
-   render(<FakeComponent initialCount={initialCount} step={step} />)
+   render(<FakeComponent />)
 
    return hookResult;
 }
