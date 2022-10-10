@@ -2,32 +2,15 @@
 // http://localhost:3000/counter-hook
 
 import * as React from 'react'
-import {render, renderHook, act} from '@testing-library/react'
+
+// interessante : Import the "renderHook" function which allows us to 
+// invoke a custom hook much like our own "setup" function did
+import {renderHook, act} from '@testing-library/react'
 import useCounter from '../../components/use-counter'
-
-
-function setup({initialProps} = {}) {
-  
-  // interessante : define the initial result object.
-  const hookResult = {};
-
-  const FakeComponent = () => {  
-
-    // interessante : copy the hook output into the result object.
-    // this way it can be referenced from outside the function
-    Object.assign(hookResult, useCounter(initialProps));
-    return null;
-   };
-   
-   render(<FakeComponent />)
-
-   return hookResult;
-}
-
 
 test('Fake component, normal initial count and step', async () => {
 
-  const hookResult = setup();
+  const hookResult = renderHook();
 
   expect(hookResult.count).toBe(0);
 
@@ -40,7 +23,7 @@ test('Fake component, normal initial count and step', async () => {
 
 test('Fake component, configure initial count', async () => {
   
-  const hookResult = setup({initialProps : {initialCount : 5}})
+  const hookResult = renderHook({initialProps : {initialCount : 5}})
 
   expect(hookResult.count).toBe(5);
 
@@ -53,7 +36,7 @@ test('Fake component, configure initial count', async () => {
 
 test('Fake component, configure step', async () => {
   
-  const hookResult = setup({initialProps : {step : 9}})
+  const hookResult = renderHook({initialProps : {step : 9}})
 
   expect(hookResult.count).toBe(0);
 
@@ -66,7 +49,7 @@ test('Fake component, configure step', async () => {
 
 test('Fake component, configure initial count and step', async () => {
   
-  const hookResult = setup({initialProps : {initialCount : 2, step : 9}})
+  const hookResult = renderHook({initialProps : {initialCount : 2, step : 9}})
 
   expect(hookResult.count).toBe(2);
 
