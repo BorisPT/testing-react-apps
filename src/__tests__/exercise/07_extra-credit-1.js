@@ -19,25 +19,12 @@ test('renders with the dark styles for the dark theme', async () => {
 
   const button = screen.getByRole('button', {name: /easy/i})
 
-  screen.debug();
-
   // interessante : initial assertion about the button style  
   expect(button).toHaveStyle(`
     backgroundColor: 'black',
     color: 'white',
   `)
-
-  // interessante : click the button
-  await userEvent.click(button);
-
-  // interessante : trigger a re-render
-  rerender(<EasyButton>Easy</EasyButton>)
   
-  // interessante : assert that the style has been updated  
-  expect(button).toHaveStyle(`
-    background-color: white;
-    color: black;
-  `)
 })
 
 /* eslint no-unused-vars:0 */
