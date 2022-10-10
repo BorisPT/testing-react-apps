@@ -6,16 +6,23 @@ import {render, act} from '@testing-library/react'
 import useCounter from '../../components/use-counter'
 
 
-let hookResult;
+function setup({initialCount = 0, step = 1} = {}) {
+  let hookResult = {};
 
-const FakeComponent = ({initialCount = 0, step = 1}) => {  
-  hookResult = useCounter({initialCount, step});
-  return null;
- };  
+  const FakeComponent = ({initialCount, step}) => {  
+    Object.assign(hookResult, useCounter({initialCount, step}));
+    return null;
+   };
+   
+   render(<FakeComponent initialCount={initialCount} step={step} />)
+
+   return hookResult;
+}
+
 
 test('Fake component, normal initial count and step', async () => {
 
-  render(<FakeComponent />)
+  const hookResult = setup();
 
   expect(hookResult.count).toBe(0);
 
@@ -27,8 +34,8 @@ test('Fake component, normal initial count and step', async () => {
 })
 
 test('Fake component, configure initial count', async () => {
-
-  render(<FakeComponent initialCount={5}/>)
+  
+  const hookResult = setup({initialCount : 5})
 
   expect(hookResult.count).toBe(5);
 
@@ -40,8 +47,8 @@ test('Fake component, configure initial count', async () => {
 })
 
 test('Fake component, configure step', async () => {
-
-  render(<FakeComponent step={9}/>)
+  
+  const hookResult = setup({step : 9})
 
   expect(hookResult.count).toBe(0);
 
@@ -53,8 +60,8 @@ test('Fake component, configure step', async () => {
 })
 
 test('Fake component, configure initial count and step', async () => {
-
-  render(<FakeComponent initialCount={2} step={9}/>)
+  
+  const hookResult = setup({initialCount : 2, step : 9})
 
   expect(hookResult.count).toBe(2);
 
