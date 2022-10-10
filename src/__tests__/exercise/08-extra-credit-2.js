@@ -7,9 +7,14 @@ import useCounter from '../../components/use-counter'
 
 
 function setup({initialCount = 0, step = 1} = {}) {
-  let hookResult = {};
+  
+  // interessante : define the initial result object.
+  const hookResult = {};
 
   const FakeComponent = ({initialCount, step}) => {  
+
+    // interessante : copy the hook output into the result object.
+    // this way it can be referenced from outside the function
     Object.assign(hookResult, useCounter({initialCount, step}));
     return null;
    };
