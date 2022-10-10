@@ -3,7 +3,6 @@
 
 import * as React from 'react'
 import {render, act} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import useCounter from '../../components/use-counter'
 
 
@@ -28,7 +27,8 @@ test('Testing with a fake component', async () => {
   expect(hookResult.count).toBe(0);
 
   // interessante : because this causes a state change, 
-  // we need to wrap it in "act"
+  // we need to wrap it in "act", to tell React to flush
+  // all the changes it needs to propagate
   act(() => hookResult.increment());
   expect(hookResult.count).toBe(1);
 
