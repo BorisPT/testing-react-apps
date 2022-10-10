@@ -35,4 +35,20 @@ test('renders with the dark styles for the dark theme', async () => {
 
 })
 
+test('renders with the light styles for the light theme', async () => {
+
+  // interessante : use the custom render method, specifying the 
+  // initial theme for the ThemeProvider
+  customRender(<EasyButton>Easy</EasyButton>, {theme: "light"})
+
+  const button = screen.getByRole('button', {name: /easy/i})
+
+  // interessante : initial assertion about the button style  
+  expect(button).toHaveStyle(`
+    backgroundColor: 'white',
+    color: 'black',
+  `)
+
+})
+
 /* eslint no-unused-vars:0 */
