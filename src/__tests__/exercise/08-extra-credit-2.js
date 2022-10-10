@@ -6,34 +6,63 @@ import {render, act} from '@testing-library/react'
 import useCounter from '../../components/use-counter'
 
 
-test('Testing with a fake component', async () => {
+let hookResult;
 
-  // interessante : save the result of the custom hook invocation
-  // for future assertions
-  let hookResult;
+const FakeComponent = ({initialCount = 0, step = 1}) => {  
+  hookResult = useCounter({initialCount, step});
+  return null;
+ };  
 
-  // interessante : define a fake component that will not render anything,
-  // but will only invoke the custom hook
-  const FakeComponent = () => {  
-    hookResult = useCounter();
-    return null;
-   };  
+test('Fake component, normal initial count and step', async () => {
 
-  // interessante : Render the fake component
   render(<FakeComponent />)
 
-  // interessante : we can't access any UI elements, because the component
-  // does not retur anything. But we can assert on the hook result.
   expect(hookResult.count).toBe(0);
 
-  // interessante : because this causes a state change, 
-  // we need to wrap it in "act", to tell React to flush
-  // all the changes it needs to propagate
   act(() => hookResult.increment());
   expect(hookResult.count).toBe(1);
 
   act(() => hookResult.decrement());
   expect(hookResult.count).toBe(0);
+})
+
+test('Fake component, configure initial count', async () => {
+
+  render(<FakeComponent initialCount={5}/>)
+
+  expect(hookResult.count).toBe(5);
+
+  act(() => hookResult.increment());
+  expect(hookResult.count).toBe(6);
+
+  act(() => hookResult.decrement());
+  expect(hookResult.count).toBe(5);
+})
+
+test('Fake component, configure step', async () => {
+
+  render(<FakeComponent step={9}/>)
+
+  expect(hookResult.count).toBe(0);
+
+  act(() => hookResult.increment());
+  expect(hookResult.count).toBe(9);
+
+  act(() => hookResult.decrement());
+  expect(hookResult.count).toBe(0);
+})
+
+test('Fake component, configure initial count and step', async () => {
+
+  render(<FakeComponent initialCount={2} step={9}/>)
+
+  expect(hookResult.count).toBe(2);
+
+  act(() => hookResult.increment());
+  expect(hookResult.count).toBe(11);
+
+  act(() => hookResult.decrement());
+  expect(hookResult.count).toBe(2);
 })
 
 /* eslint no-unused-vars:0 */
