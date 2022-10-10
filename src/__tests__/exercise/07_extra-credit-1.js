@@ -15,7 +15,7 @@ test('renders with the dark styles for the dark theme', async () => {
     return <ThemeProvider initialTheme="dark">{children}</ThemeProvider>
   }
 
-  const {rerender} = render(<EasyButton>Easy</EasyButton>, {wrapper: ContextWrapper})
+  render(<EasyButton>Easy</EasyButton>, {wrapper: ContextWrapper})
 
   const button = screen.getByRole('button', {name: /easy/i})
 
@@ -24,7 +24,7 @@ test('renders with the dark styles for the dark theme', async () => {
     backgroundColor: 'black',
     color: 'white',
   `)
-  
+
 })
 
 /* eslint no-unused-vars:0 */
