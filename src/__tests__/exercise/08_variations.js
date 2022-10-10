@@ -50,8 +50,6 @@ test('Test a different initial count', async () => {
   const incButton = screen.getByRole("button", {name : /inc/i})
   const decButton = screen.getByRole("button", {name : /dec/i})
 
-  screen.debug()
-
   // initial assertion
   expect(counterDiv).toHaveTextContent(/3/i)
 
